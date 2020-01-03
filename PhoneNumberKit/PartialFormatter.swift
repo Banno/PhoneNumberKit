@@ -101,7 +101,7 @@ public final class PartialFormatter {
             return rawNumber
         }
         let split = splitNumberAndPausesOrWaits(rawNumber)
-        
+
         var nationalNumber = self.nationalNumber(from: split.number)
         if let formats = availableFormats(nationalNumber) {
             if let formattedNumber = applyFormat(nationalNumber, formats: formats) {
@@ -115,8 +115,9 @@ public final class PartialFormatter {
                 }
             }
         }
-        
+
         var finalNumber = String()
+
         if showNationalNumberPrefix {
              if prefixBeforeNationalNumber.count > 0 {
                  finalNumber.append(prefixBeforeNationalNumber)
