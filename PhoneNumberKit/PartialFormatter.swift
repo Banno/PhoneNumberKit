@@ -95,12 +95,12 @@ public final class PartialFormatter {
     public func formatPartial(_ rawNumber: String) -> String {
         // Always reset variables with each new raw number
         self.resetVariables()
-
+        
         guard self.isValidRawNumber(rawNumber) else {
             return rawNumber
         }
         let split = splitNumberAndPausesOrWaits(rawNumber)
-
+        
         var nationalNumber = self.nationalNumber(from: split.number)
         if let formats = availableFormats(nationalNumber) {
             if let formattedNumber = applyFormat(nationalNumber, formats: formats) {
@@ -114,14 +114,14 @@ public final class PartialFormatter {
                 }
             }
         }
-
+        
         var finalNumber = String()
-         if self.withPrefix, self.prefixBeforeNationalNumber.count > 0 {
-              finalNumber.append(self.prefixBeforeNationalNumber)
-          }
+        if self.withPrefix, self.prefixBeforeNationalNumber.count > 0 {
+            finalNumber.append(self.prefixBeforeNationalNumber)
+        }
         if self.withPrefix, self.shouldAddSpaceAfterNationalPrefix, self.prefixBeforeNationalNumber.count > 0, self.prefixBeforeNationalNumber.last != PhoneNumberConstants.separatorBeforeNationalNumber.first {
-             finalNumber.append(PhoneNumberConstants.separatorBeforeNationalNumber)
-         }
+            finalNumber.append(PhoneNumberConstants.separatorBeforeNationalNumber)
+        }
         if nationalNumber.count > 0 {
             finalNumber.append(nationalNumber)
         }
