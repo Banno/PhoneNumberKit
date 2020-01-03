@@ -16,11 +16,11 @@ public final class PartialFormatter {
     weak var parser: PhoneNumberParser?
     weak var regexManager: RegexManager?
 
-    public convenience init(phoneNumberKit: PhoneNumberKit = PhoneNumberKit(), defaultRegion: String = PhoneNumberKit.defaultRegionCode(), withPrefix: Bool = true, withNationalNumberPrefix: Bool = true, maxDigits: Int? = nil) {
-        self.init(phoneNumberKit: phoneNumberKit, regexManager: phoneNumberKit.regexManager, metadataManager: phoneNumberKit.metadataManager, parser: phoneNumberKit.parseManager.parser, defaultRegion: defaultRegion, withPrefix: withPrefix, withNationalNumberPrefix: withNationalNumberPrefix, maxDigits: maxDigits)
+    public convenience init(phoneNumberKit: PhoneNumberKit = PhoneNumberKit(), defaultRegion: String = PhoneNumberKit.defaultRegionCode(), withPrefix: Bool = true, maxDigits: Int? = nil) {
+        self.init(phoneNumberKit: phoneNumberKit, regexManager: phoneNumberKit.regexManager, metadataManager: phoneNumberKit.metadataManager, parser: phoneNumberKit.parseManager.parser, defaultRegion: defaultRegion, withPrefix: withPrefix, maxDigits: maxDigits)
     }
 
-    init(phoneNumberKit: PhoneNumberKit, regexManager: RegexManager, metadataManager: MetadataManager, parser: PhoneNumberParser, defaultRegion: String, withPrefix: Bool = true, withNationalNumberPrefix: Bool = true, maxDigits: Int? = nil) {
+    init(phoneNumberKit: PhoneNumberKit, regexManager: RegexManager, metadataManager: MetadataManager, parser: PhoneNumberParser, defaultRegion: String, withPrefix: Bool = true, maxDigits: Int? = nil) {
         self.phoneNumberKit = phoneNumberKit
         self.regexManager = regexManager
         self.metadataManager = metadataManager
@@ -28,7 +28,6 @@ public final class PartialFormatter {
         self.defaultRegion = defaultRegion
         self.updateMetadataForDefaultRegion()
         self.withPrefix = withPrefix
-        self.showNationalNumberPrefix = withNationalNumberPrefix
         self.maxDigits = maxDigits
     }
 
@@ -54,7 +53,6 @@ public final class PartialFormatter {
     var currentMetadata: MetadataTerritory?
     var prefixBeforeNationalNumber = String()
     var shouldAddSpaceAfterNationalPrefix = false
-    var showNationalNumberPrefix = true
     var withPrefix = true
 
     // MARK: Status
@@ -118,14 +116,11 @@ public final class PartialFormatter {
         }
 
         var finalNumber = String()
-
-        if showNationalNumberPrefix {
-             if prefixBeforeNationalNumber.count > 0 {
-                 finalNumber.append(prefixBeforeNationalNumber)
-             }
-             if shouldAddSpaceAfterNationalPrefix && prefixBeforeNationalNumber.count > 0 && prefixBeforeNationalNumber.last != PhoneNumberConstants.separatorBeforeNationalNumber.first  {
-                 finalNumber.append(PhoneNumberConstants.separatorBeforeNationalNumber)
-             }
+         if self.withPrefix, self.prefixBeforeNationalNumber.count > 0 {
+              finalNumber.append(self.prefixBeforeNationalNumber)
+          }
+        if self.withPrefix, self.shouldAddSpaceAfterNationalPrefix, self.prefixBeforeNationalNumber.count > 0, self.prefixBeforeNationalNumber.last != PhoneNumberConstants.separatorBeforeNationalNumber.first {
+             finalNumber.append(PhoneNumberConstants.separatorBeforeNationalNumber)
          }
         if nationalNumber.count > 0 {
             finalNumber.append(nationalNumber)
