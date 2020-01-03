@@ -53,6 +53,7 @@ public final class PartialFormatter {
     var currentMetadata: MetadataTerritory?
     var prefixBeforeNationalNumber = String()
     var shouldAddSpaceAfterNationalPrefix = false
+    var showNationalNumberPrefix = true
     var withPrefix = true
 
     // MARK: Status
@@ -116,12 +117,14 @@ public final class PartialFormatter {
         }
         
         var finalNumber = String()
-        if self.prefixBeforeNationalNumber.count > 0 {
-            finalNumber.append(self.prefixBeforeNationalNumber)
-        }
-        if self.shouldAddSpaceAfterNationalPrefix, self.prefixBeforeNationalNumber.count > 0, self.prefixBeforeNationalNumber.last != PhoneNumberConstants.separatorBeforeNationalNumber.first {
-            finalNumber.append(PhoneNumberConstants.separatorBeforeNationalNumber)
-        }
+        if showNationalNumberPrefix {
+             if prefixBeforeNationalNumber.count > 0 {
+                 finalNumber.append(prefixBeforeNationalNumber)
+             }
+             if shouldAddSpaceAfterNationalPrefix && prefixBeforeNationalNumber.count > 0 && prefixBeforeNationalNumber.last != PhoneNumberConstants.separatorBeforeNationalNumber.first  {
+                 finalNumber.append(PhoneNumberConstants.separatorBeforeNationalNumber)
+             }
+         }
         if nationalNumber.count > 0 {
             finalNumber.append(nationalNumber)
         }
