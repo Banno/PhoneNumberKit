@@ -114,7 +114,7 @@ public final class PartialFormatter {
                 }
             }
         }
-        
+
         var finalNumber = String()
         if self.withPrefix, self.prefixBeforeNationalNumber.count > 0 {
             finalNumber.append(self.prefixBeforeNationalNumber)
