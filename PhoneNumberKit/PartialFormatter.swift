@@ -95,7 +95,7 @@ public final class PartialFormatter {
     public func formatPartial(_ rawNumber: String) -> String {
         // Always reset variables with each new raw number
         self.resetVariables()
-        
+
         guard self.isValidRawNumber(rawNumber) else {
             return rawNumber
         }
